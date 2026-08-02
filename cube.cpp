@@ -135,7 +135,7 @@ void plot(int x, int y, char pixel)
       
         return {screenx, screeny};
 
-    }
+    };
 
 //dda alg
 void drawLine(int x0, int y0, int x1, int y1){
@@ -169,15 +169,15 @@ void drawLine(int x0, int y0, int x1, int y1){
     
 
 }
-
+}
 
 void drawCube(){
  
 
     plot(0,0,'@');
     plot (10,10,'x');
-}
 
+} 
 
 
 
@@ -227,12 +227,12 @@ update();
    
     present();
     cout.flush();
-    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+   this_thread::sleep_for(std::chrono::milliseconds(20));
 }
     return 0;
 }
 
- 
+
 
 
 
