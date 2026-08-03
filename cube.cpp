@@ -198,7 +198,7 @@ void drawtriangleTop(int x0, int y0, int x1, int y1, int x2, int y2)
 
     
 
-    //top triangle
+    
     float inv_slope1 = (float) (x1-x0)/(y1-y0);
     float inv_slope2 = (float) (x2-x0)/(y2-y0); 
 
