@@ -1,15 +1,19 @@
-# ASCII Rotating Cube
+# ASCII Software Renderer
 
 A simple software-rendered 3D wireframe cube written in C++ that renders directly to the terminal using a framebuffer.
 
+![Renderer Demo](demo.gif)
+
+
 ## Features
 
-- Terminal framebuffer renderer
+- Software framebuffer renderer
 - Perspective projection
-- DDA line drawing algorithm
-- 3D wireframe cube
-- Y-axis rotation
-- Simple render loop
+- Barycentric triangle rasterization
+- Filled 3D cube
+- Lambert-style ASCII face shading
+- Dynamic terminal rendering
+- Continuous cube rotation
 
 ## Concepts Learned
 
@@ -19,30 +23,30 @@ Implemented concepts include:
 
 - Framebuffers
 - Render loops
-- 2D and 3D vectors
+- 2D and 3D vector math
 - Perspective projection
 - DDA line rasterization
-- Wireframe rendering
-- Rotation around the Y-axis
-- Basic graphics pipeline
+- Barycentric triangle rasterization
+- Surface normals
+- Dot products
+- Basic Lambert lighting
+- Software rendering pipeline
 
 ## Graphics Pipeline
 
-```
 Cube Vertices
       ↓
 Rotation
       ↓
 Perspective Projection
       ↓
-2D Screen Coordinates
+Triangle Rasterization
       ↓
-Line Rasterization (DDA)
+Face Lighting
       ↓
 Framebuffer
       ↓
 Terminal
-```
 
 ## Technologies
 
@@ -65,17 +69,11 @@ Terminal
 
 This project was built from scratch from a basic idea of rotational mathematics, the main goal was to solve a math heavy project
 
-- Plotting pixels
-- Drawing lines
-- Projecting 3D points
-- Connecting vertices
-- Animating the scene
+
+I also built it as a learning exercise to understand how modern graphics pipelines work at a low level before using APIs such as OpenGL or DirectX.
+
 
 Building each component separately made the graphics pipeline much easier to understand.
-
-##Demo 
-//add gif 
-
 
 
 ## Build
