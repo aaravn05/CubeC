@@ -67,7 +67,7 @@ Terminal
 
 ## Lessons Learned
 
-This project was built from scratch from a basic idea of rotational mathematics, the main goal was to solve a math heavy project
+This project was built from scratch from a basic idea of rotational mathematics, the main goal was to solve a math heavy project.
 
 
 I also built it as a learning exercise to understand how modern graphics pipelines work at a low level before using APIs such as OpenGL or DirectX.
