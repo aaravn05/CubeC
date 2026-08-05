@@ -21,6 +21,9 @@ float yscale = 7.0;
 
 float angle = 0.2;
 float speed=0.1;
+
+char pixel;
+
 struct Vec3
 {
 float x;
@@ -176,7 +179,7 @@ void drawLine(int x0, int y0, int x1, int y1)
 
     for (int i = 0; i <= steps; i++)
     {
-        plot((int)round(x), (int)round(y), '3', RED);
+        plot((int)round(x), (int)round(y), pixel, RED);
         x += xInc;
         y += yInc;
 }
@@ -190,98 +193,46 @@ void swap(Vec2& a, Vec2& b)
     b=temp;
 }
 
-void drawtriangleTop(int x0, int y0, int x1, int y1, int x2, int y2)
+
+
+
+
+float edge(Vec2 a, Vec2 b, Vec2 c)
+{
+    return (c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x);
+}
+//barycentric rasterizer version
+void drawTriangle(Vec2 a, Vec2 b, Vec2 c, char pixel)
 {
 
-    float x_start=x0;
-    float x_end=x0;
+    int minX = floor(min(a.x, min(b.x, c.x)));
+int maxX = ceil (max(a.x, max(b.x, c.x)));
 
+int minY = floor(min(a.y, min(b.y, c.y)));
+int maxY = ceil (max(a.y, max(b.y, c.y)));
     
 
     
-    float inv_slope1 = (float) (x1-x0)/(y1-y0);
-    float inv_slope2 = (float) (x2-x0)/(y2-y0); 
+for (int y = minY; y <= maxY; y++)
 
-    for(int i =y0; i<=y2; i++)
-    {
-        drawLine(x_start,i,x_end,i);
-        x_start+=inv_slope1;
-        x_end+=inv_slope2;
-    }
-
-
-}
-
-void drawtriangleBottom(int x0, int y0, int x1, int y1, int x2, int y2){
-
-     float x_start=x2;
-        float x_end=x2;
-    
-
-      float inv_slope3 = (float) (x2-x0)/(y2-y1);
-    float inv_slope4 = (float) (x2-x1)/(y2-y1);
-
-    for(int i = y2; i>=y1; i--)
-    {
-        drawLine(x_start,i,x_end,i);
-        x_start-=inv_slope3;
-        x_end-=inv_slope4;
-    }
-
-}
-
-
-void drawTriangle(Vec2 a, Vec2 b, Vec2 c)
 {
-
-    //find y0<y1<y2
-if (a.y > b.y)
-    swap(a, b);
-
-if (a.y > c.y)
-    swap(a, c);
-
-if (b.y > c.y)
-    swap(b, c);
-    
-   
-
-    if(b.y==c.y){
-       drawtriangleTop(a.x, a.y,
-    b.x, b.y,
-    c.x, c.y);
-    
-}
-    
-
-    else if(a.y==b.y){
-        drawtriangleBottom(a.x, a.y,
-    b.x, b.y,
-    c.x, c.y);
-    }
-    
-
-    else
+    for (int x = minX; x <= maxX; x++)
     {
-    
-        Vec2 m;
-         m.y = b.y;
-     m.x = ((float)((c.x-a.x)*(b.y-a.y)))/((float)(c.y-a.y)) + a.x;
+        Vec2 p = {(float)x,(float)y};
 
-   drawtriangleTop(
-    a.x, a.y,
-    b.x, b.y,
-    m.x, m.y);
+        float w0 = edge(b, c, p);
+            float w1 = edge(c, a, p);
+            float w2 = edge(a, b, p);
 
-drawtriangleBottom(
-    b.x, b.y,
-    m.x, m.y,
-    c.x, c.y);
+        if ((w0 >= 0 && w1 >= 0 && w2 >= 0) ||
+    (w0 <= 0 && w1 <= 0 && w2 <= 0))
+        {
+            plot(x, y, pixel, RED);
+        }
 
+        
     }
-
-
-
+}
 
 
     return; 
@@ -346,8 +297,9 @@ for (int i = 0; i < 6; i++)
     Vec2 v2 = project(rotatedVerts[cubeFaces[i][2]]);
     Vec2 v3 = project(rotatedVerts[cubeFaces[i][3]]);   
 
-    drawTriangle(v0, v1, v2);
-    drawTriangle(v0, v2, v3);
+    pixel = '@';
+    drawTriangle(v0, v1, v2, pixel);
+    drawTriangle(v0, v2, v3, pixel);
 }
 
     
@@ -358,11 +310,3 @@ for (int i = 0; i < 6; i++)
 }
     return 0;
 }
-
-
-
-
-
-
-
-
